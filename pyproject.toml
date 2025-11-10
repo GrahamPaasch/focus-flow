@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cognitive-router"
+version = "0.1.0"
+description = "Prototype cognitive bandwidth router simulation"
+authors = [{name = "FocusFlow"}]
+requires-python = ">=3.10"
+dependencies = []
+readme = "README.md"
+
+[project.scripts]
+cog-router-sim = "cognitive_router.simulation:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
