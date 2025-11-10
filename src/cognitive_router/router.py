@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Callable, Dict, List
 
 from .attention import AttentionModel
+from .context import ContextProvider
 from .task_models import TaskIntent, WorkItem
 from .telemetry import TelemetryCollector
 
@@ -65,6 +66,7 @@ class RouterService:
         self.policy = policy or RoutingPolicy()
         self.operator_context: Dict[str, float] = {"context_switches_last_hour": 0.0}
         self._sinks: Dict[str, List[Sink]] = {"immediate": [], "batch": [], "auto": [], "park": []}
+        self._context_providers: List[ContextProvider] = []
 
     def update_operator_context(self, **fields: float) -> None:
         self.operator_context.update(fields)
@@ -74,9 +76,16 @@ class RouterService:
             raise ValueError(f"Unknown strategy '{strategy}'")
         self._sinks[strategy].append(handler)
 
+    def register_context_provider(self, provider: ContextProvider) -> None:
+        self._context_providers.append(provider)
+
     def handle_task(self, task: TaskIntent) -> WorkItem:
         telemetry_summary = self.telemetry.summarize()
-        attention_load = self.attention_model.score(telemetry_summary, self.operator_context)
+        context_snapshot = self._build_context_snapshot()
+        for key in ("queue_depth", "calendar_block_minutes"):
+            if key in context_snapshot:
+                telemetry_summary[key] = context_snapshot[key]
+        attention_load = self.attention_model.score(telemetry_summary, context_snapshot)
         priority = self.policy.compute_priority(task, attention_load)
         strategy = self.policy.route_strategy(task, priority)
         rationale = self._build_rationale(task, priority, attention_load)
@@ -91,6 +100,12 @@ class RouterService:
         for sink in self._sinks.get(strategy, []):
             sink(work_item)
         return work_item
+
+    def _build_context_snapshot(self) -> Dict[str, float]:
+        snapshot = dict(self.operator_context)
+        for provider in self._context_providers:
+            snapshot.update(provider.snapshot())
+        return snapshot
 
     def _build_rationale(self, task: TaskIntent, priority: float, attention_load: float) -> str:
         return (

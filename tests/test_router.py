@@ -1,6 +1,7 @@
 from datetime import UTC, datetime
 
 from cognitive_router.attention import AttentionModel
+from cognitive_router.context import QueueDepthContextProvider
 from cognitive_router.router import RouterService
 from cognitive_router.task_models import TaskIntent
 from cognitive_router.telemetry import TelemetryCollector, TelemetrySample
@@ -60,3 +61,19 @@ def test_medium_priority_batches():
     )
     work_item = router.handle_task(task)
     assert work_item.route_strategy in {"batch", "immediate"}
+
+
+def test_context_provider_increases_attention_load():
+    baseline_router = _build_router()
+    queue_router = _build_router()
+    queue_router.register_context_provider(QueueDepthContextProvider(lambda: 25))
+    task = TaskIntent(
+        task_id="queue-1",
+        severity=2,
+        slo_risk_minutes=15,
+        model_confidence=0.7,
+        explanation="Queue pressure",
+    )
+    baseline = baseline_router.handle_task(task)
+    with_queue = queue_router.handle_task(task)
+    assert with_queue.attention_load >= baseline.attention_load

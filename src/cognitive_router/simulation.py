@@ -8,9 +8,12 @@ from datetime import UTC, datetime, timedelta
 from typing import Iterable, List
 
 from .attention import AttentionModel
+from .context import CalendarLoadContextProvider, QueueDepthContextProvider, StaticContextProvider
+from .event_bus import InMemoryEventBus
 from .router import RouterService
 from .task_models import TaskIntent
 from .telemetry import TelemetryCollector, TelemetrySample
+from .workflow import InMemoryWorkflowEngine
 
 
 def _seed_telemetry(collector: TelemetryCollector, now: datetime) -> None:
@@ -25,6 +28,8 @@ def _seed_telemetry(collector: TelemetryCollector, now: datetime) -> None:
                 pager_events=random.randint(0, 2),
                 active_tasks=random.randint(1, 4),
                 idle_minutes=random.uniform(0, 10),
+                queue_depth=random.randint(0, 10),
+                calendar_block_minutes=random.uniform(0, 25),
             )
         )
 
@@ -57,24 +62,40 @@ def run_simulation(tasks: int, seed: int) -> List[str]:
     telemetry = TelemetryCollector()
     attention_model = AttentionModel()
     router = RouterService(telemetry=telemetry, attention_model=attention_model)
+    workflow = InMemoryWorkflowEngine()
     now = datetime.now(UTC)
     _seed_telemetry(telemetry, now)
+
+    router.register_context_provider(QueueDepthContextProvider(lambda: len(workflow.items)))
+    router.register_context_provider(
+        CalendarLoadContextProvider(lambda: random.uniform(0, 30))
+    )
+    router.register_context_provider(
+        StaticContextProvider({"context_switches_last_hour": random.randint(1, 6)})
+    )
 
     outputs: List[str] = []
 
     def sink_printer(strategy: str):
         def _inner(work_item):
             outputs.append(
-                f"[{strategy.upper()}] {work_item.task.task_id} -> {work_item.rationale}"
+                f"[{strategy.upper()}] {work_item.task.task_id} -> {work_item.rationale} "
+                f"queue={len(workflow.items)}"
             )
 
         return _inner
 
+    for strategy in ("immediate", "batch"):
+        router.register_sink(strategy, workflow.enqueue)
+
     for strategy in ("immediate", "batch", "auto", "park"):
         router.register_sink(strategy, sink_printer(strategy))
 
+    bus = InMemoryEventBus()
+    bus.subscribe("tasks.intent", router.handle_task)
+
     for idx in range(1, tasks + 1):
-        router.handle_task(_random_task(idx))
+        bus.publish("tasks.intent", _random_task(idx))
 
     return outputs
 

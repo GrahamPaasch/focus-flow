@@ -20,6 +20,8 @@ class TelemetrySample:
     pager_events: int
     active_tasks: int
     idle_minutes: float
+    queue_depth: int = 0
+    calendar_block_minutes: float = 0.0
 
 
 class TelemetryCollector:
@@ -42,6 +44,8 @@ class TelemetryCollector:
                 "pager_events": 0.0,
                 "active_tasks": 0.0,
                 "idle_minutes": 0.0,
+                "queue_depth": 0.0,
+                "calendar_block_minutes": 0.0,
             }
 
         samples = list(self._samples)
@@ -52,6 +56,8 @@ class TelemetryCollector:
             "pager_events": mean(s.pager_events for s in samples),
             "active_tasks": mean(s.active_tasks for s in samples),
             "idle_minutes": samples[-1].idle_minutes,
+            "queue_depth": mean(s.queue_depth for s in samples),
+            "calendar_block_minutes": samples[-1].calendar_block_minutes,
         }
 
     def _prune(self, latest_timestamp: datetime) -> None:
