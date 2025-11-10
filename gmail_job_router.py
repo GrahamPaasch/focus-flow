@@ -3,10 +3,11 @@
 Gmail Job Hunt Router - Protect Your Sanity
 
 This connects to your actual Gmail and routes job hunt emails intelligently:
+- Important people (Pearl, actual recruiters) → Flag if unanswered
 - Interview requests → Phone notification (ALWAYS)
 - Applications/networking → Digest once a day
 - Rejections → Quarantine (read when YOU decide, not when they arrive)
-- Recruiter spam → Auto-archive
+- Recruiter spam (ZipRecruiter, Lensa) → Auto-archive
 
 Setup:
 1. Enable Gmail API: https://console.cloud.google.com/apis/library/gmail.googleapis.com
@@ -31,37 +32,60 @@ from email.mime.text import MIMEText
 # Gmail API scopes
 SCOPES = ['https://www.googleapis.com/auth/gmail.modify']
 
+# VIP contacts - actual humans you're working with
+VIP_CONTACTS = [
+    'gypclany@yahoo.com',  # Pearl Collings - Datadog recruiter
+    # Add more as needed
+]
+
+# Automated spam sources to auto-archive
+SPAM_SOURCES = [
+    'ziprecruiter.com',
+    'lensa.com',
+    'theladders.com',
+    'indeed.com',
+    'linkedin.com',  # Only the automated job alerts, not actual messages
+]
+
 # Email classification patterns
 PATTERNS = {
     'interview_request': [
-        r'interview',
-        r'phone screen',
-        r'schedule.*call',
-        r'next steps',
-        r'meet.*team',
-        r'technical.*assessment',
-        r'conversation.*role',
+        r'schedule.*interview',
+        r'interview.*schedule',
+        r'phone screen.*schedule',
+        r'schedule.*phone screen',
+        r'available.*interview',
+        r'interview.*time',
+        r'calendly.*interview',
+        r'meet.*discuss.*role',
+        r'next.*interview.*step',
+        r'technical.*interview',
+        r'video.*interview',
+        r'zoom.*interview',
     ],
     'rejection': [
         r'moved forward with other candidates',
         r'decided not to move forward',
-        r'unfortunately',
-        r'at this time.*not',
+        r'not.*selected.*position',
         r'pursuing other candidates',
         r'position has been filled',
-        r'appreciate your interest.*however',
+        r'will not be moving forward',
+        r'chosen.*another candidate',
     ],
     'recruiter_spam': [
-        r'exciting opportunity',
-        r'perfect fit for you',
-        r'immediate opening',
-        r'looking for top talent',
+        r'exciting opportunity.*apply',
+        r'perfect fit for you.*click',
+        r'immediate opening.*urgent',
+        r'top talent.*exclusive',
         r'competitive salary.*apply now',
+        r'limited time.*position',
+        r'unsubscribe.*opportunity',
     ],
     'application_received': [
         r'application.*received',
         r'thank you for applying',
-        r'we.*received your',
+        r'we.*received your application',
+        r'successfully submitted.*application',
     ],
 }
 
@@ -125,27 +149,23 @@ def classify_email(subject, body):
 
 def create_labels(service):
     """Create Gmail labels for routing."""
-    labels_to_create = {
-        'JobHunt/IMMEDIATE': 'ff0000',  # Red
-        'JobHunt/Batch': 'ff9900',      # Orange
-        'JobHunt/Rejections': '999999', # Gray
-        'JobHunt/Spam': '666666',       # Dark gray
-    }
+    labels_to_create = [
+        'JobHunt/IMMEDIATE',
+        'JobHunt/Batch',
+        'JobHunt/Rejections',
+        'JobHunt/Spam',
+    ]
     
     existing_labels = service.users().labels().list(userId='me').execute()
     existing_names = {label['name'] for label in existing_labels.get('labels', [])}
     
     created = []
-    for label_name, color in labels_to_create.items():
+    for label_name in labels_to_create:
         if label_name not in existing_names:
             label = {
                 'name': label_name,
                 'labelListVisibility': 'labelShow',
-                'messageListVisibility': 'show',
-                'color': {
-                    'textColor': '#ffffff',
-                    'backgroundColor': f'#{color}'
-                }
+                'messageListVisibility': 'show'
             }
             service.users().labels().create(userId='me', body=label).execute()
             created.append(label_name)
@@ -155,19 +175,21 @@ def create_labels(service):
 
 def get_unread_job_emails(service, hours=24):
     """Get unread emails from the last N hours that are job-related."""
-    # Look for emails from last 24 hours
     time_filter = datetime.now() - timedelta(hours=hours)
-    query = f'is:unread after:{time_filter.strftime("%Y/%m/%d")}'
     
-    # Add common job-related domains/keywords
-    job_keywords = [
-        'indeed', 'linkedin', 'greenhouse', 'lever', 'workday',
-        'application', 'interview', 'recruiter', 'hiring',
-    ]
+    # Build query for job-related emails, excluding automated spam
+    spam_exclusions = ' '.join([f'-from:{domain}' for domain in SPAM_SOURCES])
+    
+    job_query = (
+        f'is:unread after:{time_filter.strftime("%Y/%m/%d")} '
+        f'(from:greenhouse.io OR from:lever.co OR from:applytojob.com OR '
+        f'subject:interview OR subject:application OR subject:"your application") '
+        f'{spam_exclusions}'
+    )
     
     results = service.users().messages().list(
         userId='me',
-        q=query,
+        q=job_query,
         maxResults=50
     ).execute()
     
@@ -193,23 +215,86 @@ def get_unread_job_emails(service, hours=24):
                     body = base64.urlsafe_b64decode(part['body']['data']).decode('utf-8', errors='ignore')
                     break
         
-        # Check if job-related
-        text = (subject + ' ' + sender + ' ' + body).lower()
-        is_job_related = any(keyword in text for keyword in job_keywords)
+        # Check if from VIP
+        is_vip = any(vip in sender.lower() for vip in VIP_CONTACTS)
         
-        if is_job_related:
-            category, severity, strategy = classify_email(subject, body)
-            job_emails.append({
-                'id': msg['id'],
-                'subject': subject,
-                'sender': sender,
-                'category': category,
-                'severity': severity,
-                'strategy': strategy,
-                'body_preview': body[:200] if body else ''
-            })
+        category, severity, strategy = classify_email(subject, body)
+        
+        # Override strategy for VIPs
+        if is_vip:
+            strategy = 'immediate'
+            category = 'VIP'
+            severity = 5
+        
+        job_emails.append({
+            'id': msg['id'],
+            'subject': subject,
+            'sender': sender,
+            'category': category,
+            'severity': severity,
+            'strategy': strategy,
+            'is_vip': is_vip,
+            'body_preview': body[:200] if body else ''
+        })
     
     return job_emails
+
+def check_unanswered_vips(service, days=7):
+    """Check for unanswered emails from VIP contacts."""
+    time_filter = datetime.now() - timedelta(days=days)
+    
+    unanswered = []
+    for vip in VIP_CONTACTS:
+        # Search for emails from VIP that you haven't replied to
+        query = f'from:{vip} after:{time_filter.strftime("%Y/%m/%d")} -label:sent'
+        
+        results = service.users().messages().list(
+            userId='me',
+            q=query,
+            maxResults=10
+        ).execute()
+        
+        messages = results.get('messages', [])
+        
+        for msg in messages:
+            msg_data = service.users().messages().get(
+                userId='me', 
+                id=msg['id'],
+                format='metadata',
+                metadataHeaders=['From', 'Subject', 'Date']
+            ).execute()
+            
+            headers = msg_data['payload']['headers']
+            subject = next((h['value'] for h in headers if h['name'] == 'Subject'), '')
+            date_str = next((h['value'] for h in headers if h['name'] == 'Date'), '')
+            sender = next((h['value'] for h in headers if h['name'] == 'From'), '')
+            
+            # Check if you've sent any email to this person since
+            thread_id = msg_data['threadId']
+            thread = service.users().threads().get(userId='me', id=thread_id).execute()
+            
+            # Check if you replied in the thread
+            your_reply = False
+            for thread_msg in thread['messages']:
+                thread_headers = thread_msg['payload']['headers']
+                thread_from = next((h['value'] for h in thread_headers if h['name'] == 'From'), '')
+                if 'grahampaasch@gmail.com' in thread_from.lower():
+                    # You sent a message in this thread
+                    thread_date = next((h['value'] for h in thread_headers if h['name'] == 'Date'), '')
+                    # Check if it's after the VIP's message
+                    # (simplified - just check if you've sent anything in thread)
+                    your_reply = True
+                    break
+            
+            if not your_reply:
+                unanswered.append({
+                    'sender': sender,
+                    'subject': subject,
+                    'date': date_str,
+                    'days_ago': (datetime.now() - datetime.strptime(date_str[:25], '%a, %d %b %Y %H:%M:%S')).days
+                })
+    
+    return unanswered
 
 def route_email(service, email):
     """Route an email based on its classification."""
@@ -266,7 +351,8 @@ def main():
     print()
     print("This will scan your Gmail and intelligently route job hunt emails:")
     print()
-    print("  🚨 Interview requests → Stay in inbox, marked important")
+    print("  � VIP contacts (Pearl) → Always flagged if unanswered")
+    print("  �🚨 Interview requests → Stay in inbox, marked important")
     print("  📋 Applications/networking → Marked for batch processing")
     print("  ⏸️  Rejections → Moved out of inbox (protect your mental health)")
     print("  🗑️  Recruiter spam → Auto-archived")
@@ -288,6 +374,26 @@ def main():
         create_labels(service)
         print()
         
+        # Check for unanswered VIPs first
+        print("👤 Checking for unanswered VIP emails...")
+        unanswered = check_unanswered_vips(service, days=30)
+        
+        if unanswered:
+            print()
+            print("⚠️  UNANSWERED EMAILS FROM IMPORTANT PEOPLE:")
+            print("-" * 80)
+            for email in unanswered:
+                print(f"  👤 {email['sender']}")
+                print(f"     Subject: {email['subject']}")
+                print(f"     📅 {email['days_ago']} days ago")
+                print(f"     ⏰ YOU HAVEN'T REPLIED YET")
+                print()
+            print("=" * 80)
+            print()
+        else:
+            print("✅ No unanswered VIP emails")
+            print()
+        
         # Get and route emails
         print("📨 Scanning for job-related emails (last 24 hours)...")
         print()
@@ -297,7 +403,8 @@ def main():
         if not emails:
             print("📭 No unread job emails found.")
             print()
-            print("The router will run in the background and process new emails automatically.")
+            if not unanswered:
+                print("The router will run in the background and process new emails automatically.")
             return
         
         print(f"Found {len(emails)} job-related emails. Routing...\n")
@@ -306,11 +413,14 @@ def main():
         batch_count = 0
         park_count = 0
         auto_count = 0
+        vip_count = 0
         
         for email in emails:
             route_email(service, email)
             
-            if email['strategy'] == 'immediate':
+            if email.get('is_vip'):
+                vip_count += 1
+            elif email['strategy'] == 'immediate':
                 immediate_count += 1
             elif email['strategy'] == 'batch':
                 batch_count += 1
@@ -324,15 +434,18 @@ def main():
         print("✅ ROUTING COMPLETE")
         print("=" * 80)
         print()
+        if vip_count > 0:
+            print(f"  👤 VIP EMAILS (flagged): {vip_count}")
         print(f"  🚨 IMMEDIATE (in inbox, important): {immediate_count}")
         print(f"  📋 BATCH (labeled, read later): {batch_count}")
         print(f"  ⏸️  PARKED (rejections, out of sight): {park_count}")
         print(f"  🗑️  AUTO-ARCHIVED (spam): {auto_count}")
         print()
         print("Check your Gmail:")
-        print("  • Interview requests are still in your inbox (red label)")
+        print("  • VIP emails (Pearl) are flagged")
+        print("  • Interview requests are still in your inbox")
         print("  • Rejections are in JobHunt/Rejections (read when YOU want)")
-        print("  • Spam is archived")
+        print("  • Automated spam is archived")
         print()
         print("Your inbox is now actually useful. 🎯")
         print()
