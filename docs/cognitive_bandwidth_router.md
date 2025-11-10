@@ -61,6 +61,7 @@ Tests cover:
 ### Offline policy evaluation
 
 1. Capture or author historical incidents in JSON (example: `samples/incidents.json`). Each entry includes telemetry/context summaries, a `task`, and optional `baseline.human_intervention`.
+   - Real exports in CSV? Convert them via `cog-router-ingest --csv raw_incidents.csv --out incidents.json [--mapping mapping.json]`. See below.
 2. Run the evaluator (single policy or sweeps):
 
 ```
@@ -92,6 +93,31 @@ baseline | 0.60 | 0.60 | 0.00
 high_slo_bias | 0.80 | 0.60 | -33.33
 uncertainty_first | 0.60 | 0.60 | 0.00
 ```
+
+### Importing real incident exports
+
+Use `cog-router-ingest` to normalize CSV exports from your alerting or queue system:
+
+```
+cog-router-ingest --csv my_incidents.csv --out incidents.json
+# optional custom column mapping
+cog-router-ingest --csv my_incidents.csv --out incidents.json --mapping mapping.json
+```
+
+`mapping.json` lets you rename columns if your telemetry/baseline headers differ:
+
+```json
+{
+  "record_id": "incident_id",
+  "baseline_flag": "needed_human",
+  "telemetry": {
+    "pager_events": "pages_last_hour",
+    "queue_depth": "tickets_open"
+  }
+}
+```
+
+After conversion, run `cog-router-eval` against the generated JSON to compare policies on real data.
 
 ## Next steps
 
