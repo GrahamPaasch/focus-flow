@@ -13,6 +13,7 @@ readme = "README.md"
 
 [project.scripts]
 cog-router-sim = "cognitive_router.simulation:main"
+cog-router-eval = "cognitive_router.evaluator:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]

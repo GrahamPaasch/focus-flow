@@ -1,0 +1,117 @@
+[
+  {
+    "id": "inc-1",
+    "telemetry": {
+      "keystrokes_per_min": 160,
+      "mouse_moves_per_min": 220,
+      "window_focus_changes": 3,
+      "pager_events": 1,
+      "active_tasks": 3,
+      "idle_minutes": 4,
+      "queue_depth": 6,
+      "calendar_block_minutes": 15
+    },
+    "context": {"context_switches_last_hour": 2},
+    "task": {
+      "task_id": "inc-1",
+      "severity": 4,
+      "slo_risk_minutes": 28,
+      "model_confidence": 0.62,
+      "explanation": "SLO breach predicted",
+      "sensitivity_tag": "standard"
+    },
+    "baseline": {"human_intervention": true, "response_minutes": 25}
+  },
+  {
+    "id": "inc-2",
+    "telemetry": {
+      "keystrokes_per_min": 90,
+      "mouse_moves_per_min": 140,
+      "window_focus_changes": 5,
+      "pager_events": 3,
+      "active_tasks": 4,
+      "idle_minutes": 2,
+      "queue_depth": 12,
+      "calendar_block_minutes": 5
+    },
+    "context": {"context_switches_last_hour": 4},
+    "task": {
+      "task_id": "inc-2",
+      "severity": 5,
+      "slo_risk_minutes": 40,
+      "model_confidence": 0.55,
+      "explanation": "Critical latency spike",
+      "sensitivity_tag": "security"
+    },
+    "baseline": {"human_intervention": true, "response_minutes": 15}
+  },
+  {
+    "id": "inc-3",
+    "telemetry": {
+      "keystrokes_per_min": 110,
+      "mouse_moves_per_min": 180,
+      "window_focus_changes": 2,
+      "pager_events": 0,
+      "active_tasks": 1,
+      "idle_minutes": 12,
+      "queue_depth": 2,
+      "calendar_block_minutes": 0
+    },
+    "context": {"context_switches_last_hour": 1},
+    "task": {
+      "task_id": "inc-3",
+      "severity": 2,
+      "slo_risk_minutes": 10,
+      "model_confidence": 0.92,
+      "explanation": "Routine drift",
+      "sensitivity_tag": "standard"
+    },
+    "baseline": {"human_intervention": false, "response_minutes": 0}
+  },
+  {
+    "id": "inc-4",
+    "telemetry": {
+      "keystrokes_per_min": 70,
+      "mouse_moves_per_min": 120,
+      "window_focus_changes": 6,
+      "pager_events": 4,
+      "active_tasks": 5,
+      "idle_minutes": 1,
+      "queue_depth": 15,
+      "calendar_block_minutes": 30
+    },
+    "context": {"context_switches_last_hour": 6},
+    "task": {
+      "task_id": "inc-4",
+      "severity": 3,
+      "slo_risk_minutes": 20,
+      "model_confidence": 0.48,
+      "explanation": "Data ambiguity",
+      "sensitivity_tag": "pii"
+    },
+    "baseline": {"human_intervention": true, "response_minutes": 35}
+  },
+  {
+    "id": "inc-5",
+    "telemetry": {
+      "keystrokes_per_min": 130,
+      "mouse_moves_per_min": 210,
+      "window_focus_changes": 4,
+      "pager_events": 1,
+      "active_tasks": 2,
+      "idle_minutes": 6,
+      "queue_depth": 5,
+      "calendar_block_minutes": 8
+    },
+    "context": {"context_switches_last_hour": 2},
+    "task": {
+      "task_id": "inc-5",
+      "severity": 1,
+      "slo_risk_minutes": 6,
+      "model_confidence": 0.88,
+      "explanation": "User escalation waiting",
+      "sensitivity_tag": "standard"
+    },
+    "baseline": {"human_intervention": false, "response_minutes": 0}
+  }
+]

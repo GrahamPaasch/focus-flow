@@ -56,6 +56,42 @@ Tests cover:
 - Attention scores rising with higher load.
 - Routing outcomes (immediate/auto/batch) plus context-provider effects.
 - Kafka-style event bus, workflow adapters, and context provider utilities.
+- Offline evaluator JSON parsing and metric calculations.
+
+### Offline policy evaluation
+
+1. Capture or author historical incidents in JSON (example: `samples/incidents.json`). Each entry includes telemetry/context summaries, a `task`, and optional `baseline.human_intervention`.
+2. Run the evaluator (single policy or sweeps):
+
+```
+python -m cognitive_router.evaluator --data samples/incidents.json
+# override policy weights inline or via file
+cog-router-eval --data samples/incidents.json --policy '{"slo_weight":0.5,"batch_threshold":0.4}'
+# sweep multiple configs
+cog-router-eval --data samples/incidents.json --grid samples/policy_grid.json --out sweep.json
+```
+
+Sample output:
+
+```
+Offline Evaluation Summary
+Total tasks: 5
+Strategy counts: {'batch': 2, 'immediate': 1, 'auto': 2}
+Average priority: 0.53
+Average attention load: 0.52
+Baseline human rate: 0.60 | Router human rate: 0.60
+Human intervention reduction: 0.00%
+```
+
+Sweep output rolls up each label:
+
+```
+Offline Evaluation Sweep
+Label | Router rate | Baseline rate | Human reduction %
+baseline | 0.60 | 0.60 | 0.00
+high_slo_bias | 0.80 | 0.60 | -33.33
+uncertainty_first | 0.60 | 0.60 | 0.00
+```
 
 ## Next steps
 

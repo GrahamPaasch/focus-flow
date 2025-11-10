@@ -1,0 +1,14 @@
+[
+  {
+    "label": "baseline",
+    "policy": {}
+  },
+  {
+    "label": "high_slo_bias",
+    "policy": {"slo_weight": 0.55, "attention_weight": 0.05, "batch_threshold": 0.5}
+  },
+  {
+    "label": "uncertainty_first",
+    "policy": {"uncertainty_weight": 0.35, "min_confidence_for_auto": 0.92}
+  }
+]
