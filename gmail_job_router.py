@@ -35,7 +35,7 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.modify']
 # VIP contacts - actual humans you're working with
 VIP_CONTACTS = [
     'gypclany@yahoo.com',  # Pearl Collings - Datadog recruiter
-    'e.solberg@huxley.com',  # Ethan Solberg - Huxley (X/Twitter role)
+    'pete@opsmill.com',  # Pete Crocker - OpsMill (THE job you want)
     # Add more as needed
 ]
 
