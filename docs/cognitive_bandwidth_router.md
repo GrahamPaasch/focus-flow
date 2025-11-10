@@ -1,10 +1,12 @@
-# Cognitive Bandwidth Router Prototype
+# Cognitive Bandwidth Router - Technical Documentation
 
-This prototype turns the research brief into runnable scaffolding. It focuses on:
+This document provides implementation details for the cognitive bandwidth router prototype. For a high-level overview and motivation, see the main README.
 
-1. Capturing lightweight telemetry (keystrokes, pager events, queue depth, calendar blocks) and summarizing operator load.
-2. Translating agent `TaskIntent` events into routed `WorkItem`s through a tunable policy + workflow sink.
-3. Offering configurable context providers and event buses so you can evolve from the in-memory sim to Kafka/Temporal wiring.
+## Design Goals
+
+1. Capture lightweight telemetry (keystrokes, pager events, queue depth, calendar blocks) and summarize operator load
+2. Translate agent `TaskIntent` events into routed `WorkItem`s through a tunable policy + workflow sink
+3. Provide configurable context providers and event buses to evolve from in-memory simulation to production infrastructure (Kafka/Temporal)
 
 ## Package layout
 

@@ -1,0 +1,6 @@
+record_id,severity,slo_risk_minutes,model_confidence,explanation,sensitivity_tag,keystrokes_per_min,mouse_moves_per_min,window_focus_changes,pager_events,active_tasks,idle_minutes,queue_depth,calendar_block_minutes,context_switches_last_hour,baseline_human,response_minutes
+inc-1,4,28,0.62,SLO breach predicted,standard,160,220,3,1,3,4,6,15,2,True,25
+inc-2,5,40,0.55,Critical latency spike,security,90,140,5,3,4,2,12,5,4,True,15
+inc-3,2,10,0.92,Routine drift,standard,110,180,2,0,1,12,2,0,1,False,0
+inc-4,3,20,0.48,Data ambiguity,pii,70,120,6,4,5,1,15,30,6,True,35
+inc-5,1,6,0.88,User escalation waiting,standard,130,210,4,1,2,6,5,8,2,False,0

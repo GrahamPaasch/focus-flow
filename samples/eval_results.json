@@ -1,0 +1,45 @@
+[
+  {
+    "total_tasks": 5,
+    "strategy_counts": {
+      "batch": 2,
+      "immediate": 1,
+      "auto": 2
+    },
+    "average_priority": 0.5299555555555555,
+    "average_attention_load": 0.5178888888888888,
+    "baseline_human_rate": 0.6,
+    "router_human_rate": 0.6,
+    "human_reduction_pct": 0.0,
+    "policy_label": "baseline"
+  },
+  {
+    "total_tasks": 5,
+    "strategy_counts": {
+      "immediate": 2,
+      "auto": 2,
+      "batch": 1
+    },
+    "average_priority": 0.5980611111111112,
+    "average_attention_load": 0.5178888888888888,
+    "baseline_human_rate": 0.6,
+    "router_human_rate": 0.6,
+    "human_reduction_pct": 0.0,
+    "policy_label": "high_slo_bias"
+  },
+  {
+    "total_tasks": 5,
+    "strategy_counts": {
+      "immediate": 2,
+      "auto": 1,
+      "batch": 1,
+      "park": 1
+    },
+    "average_priority": 0.5609555555555555,
+    "average_attention_load": 0.5178888888888888,
+    "baseline_human_rate": 0.6,
+    "router_human_rate": 0.6,
+    "human_reduction_pct": 0.0,
+    "policy_label": "uncertainty_first"
+  }
+]

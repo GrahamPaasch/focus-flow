@@ -1,0 +1,61 @@
+[
+  {
+    "label": "baseline",
+    "policy": {},
+    "total_tasks": 5,
+    "strategy_counts": {
+      "batch": 2,
+      "immediate": 1,
+      "auto": 2
+    },
+    "average_priority": 0.5299555555555555,
+    "average_attention_load": 0.5178888888888888,
+    "baseline_human_rate": 0.6,
+    "router_human_rate": 0.6,
+    "human_reduction_pct": 0.0,
+    "policy_label": "baseline",
+    "score": 0.6
+  },
+  {
+    "label": "high_slo_bias",
+    "policy": {
+      "slo_weight": 0.55,
+      "attention_weight": 0.05,
+      "batch_threshold": 0.5
+    },
+    "total_tasks": 5,
+    "strategy_counts": {
+      "immediate": 2,
+      "auto": 2,
+      "batch": 1
+    },
+    "average_priority": 0.5980611111111112,
+    "average_attention_load": 0.5178888888888888,
+    "baseline_human_rate": 0.6,
+    "router_human_rate": 0.6,
+    "human_reduction_pct": 0.0,
+    "policy_label": "high_slo_bias",
+    "score": 0.6
+  },
+  {
+    "label": "uncertainty_first",
+    "policy": {
+      "uncertainty_weight": 0.35,
+      "min_confidence_for_auto": 0.92
+    },
+    "total_tasks": 5,
+    "strategy_counts": {
+      "immediate": 2,
+      "auto": 1,
+      "batch": 1,
+      "park": 1
+    },
+    "average_priority": 0.5609555555555555,
+    "average_attention_load": 0.5178888888888888,
+    "baseline_human_rate": 0.6,
+    "router_human_rate": 0.6,
+    "human_reduction_pct": 0.0,
+    "policy_label": "uncertainty_first",
+    "score": 0.6
+  }
+]
