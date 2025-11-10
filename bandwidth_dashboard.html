@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cognitive Bandwidth Router - Your Priorities</title>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-bottom: 2px solid #00d9ff;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #00d9ff;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #a0a0a0;
+        }
+        
+        .priority-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid;
+        }
+        
+        .priority-1 { border-left-color: #ff4444; }
+        .priority-2 { border-left-color: #ffaa00; }
+        .priority-3 { border-left-color: #44ff44; }
+        .priority-low { border-left-color: #888888; }
+        
+        .priority-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .priority-title {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .priority-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .badge-critical { background: #ff4444; color: white; }
+        .badge-high { background: #ffaa00; color: black; }
+        .badge-medium { background: #44ff44; color: black; }
+        .badge-low { background: #888888; color: white; }
+        
+        .task-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 3px solid #00d9ff;
+        }
+        
+        .task-title {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            color: #00d9ff;
+        }
+        
+        .task-description {
+            color: #c0c0c0;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9em;
+            color: #888;
+        }
+        
+        .deadline {
+            color: #ff4444;
+            font-weight: bold;
+        }
+        
+        .blocked {
+            background: rgba(255, 68, 68, 0.1);
+            border: 2px dashed #ff4444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .blocked h3 {
+            color: #ff4444;
+            margin-bottom: 10px;
+        }
+        
+        .bandwidth-meter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .meter-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #00d9ff;
+        }
+        
+        .meter-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d9ff 0%, #00ff88 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-weight: bold;
+            transition: width 0.3s ease;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-active { background: #44ff44; }
+        .status-waiting { background: #ffaa00; }
+        .status-blocked { background: #ff4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Cognitive Bandwidth Router</h1>
+            <p class="subtitle">Protecting your attention for what actually matters</p>
+        </header>
+        
+        <div class="bandwidth-meter">
+            <div class="meter-title">Current Bandwidth Allocation</div>
+            <div class="meter-bar">
+                <div class="meter-fill" style="width: 85%;">
+                    85% allocated to OpsMill + AutoCon 4
+                </div>
+            </div>
+        </div>
+        
+        <!-- PRIORITY 1: CRITICAL -->
+        <div class="priority-section priority-1">
+            <div class="priority-header">
+                <div class="priority-title">🔥 PRIORITY 1: OpsMill Application</div>
+                <div class="priority-badge badge-critical">CRITICAL</div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-title"><span class="status-indicator status-active"></span>Write Application Email</div>
+                <div class="task-description">
+                    Email career@opsmill.com with YOUR voice (not AI polish). Include:
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>One automation project you're proud of (the cognitive router you just built)</li>
+                        <li>Hairiest infrastructure problem (knowing when automation adds value vs overhead)</li>
+                        <li>Why leaving current situation (unemployed, want remote work, want to build with AI)</li>
+                    </ul>
+                </div>
+                <div class="task-meta">
+                    <span class="deadline">⏰ Deadline: Before AutoCon 4 (Nov 17)</span>
+                    <span>📍 Status: Not Started</span>
+                    <span>⚡ Impact: This is THE job you want</span>
+                </div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-title"><span class="status-indicator status-waiting"></span>Research OpsMill's Infrahub Platform</div>
+                <div class="task-description">
+                    Understand what Infrahub actually does. Read their docs, understand their value prop. Be able to talk intelligently about why you want to work there.
+                </div>
+                <div class="task-meta">
+                    <span>⏰ Deadline: Before application</span>
+                    <span>⏱️ Time needed: 2-3 hours</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PRIORITY 2: HIGH -->
+        <div class="priority-section priority-2">
+            <div class="priority-header">
+                <div class="priority-title">🎯 PRIORITY 2: AutoCon 4 Prep</div>
+                <div class="priority-badge badge-high">HIGH</div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-title"><span class="status-indicator status-waiting"></span>Prepare Your Story</div>
+                <div class="task-description">
+                    You have insights nobody else has: automation hype vs reality, knowing when tools help vs hurt, understanding the gap between hyperscalers (Batfish) and everyone else. Practice explaining this clearly.
+                </div>
+                <div class="task-meta">
+                    <span>⏰ Event: Nov 17-21 in Austin</span>
+                    <span>💡 Key insight: You see through the BS</span>
+                </div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-title"><span class="status-indicator status-waiting"></span>Meet OpsMill Team in Person</div>
+                <div class="task-description">
+                    They're a sponsor at AutoCon. Find their booth, introduce yourself, follow up on your application. Face-to-face > email.
+                </div>
+                <div class="task-meta">
+                    <span>📍 OpsMill is a sponsor</span>
+                    <span>🎯 This is your main goal at the conference</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PRIORITY 3: MEDIUM -->
+        <div class="priority-section priority-3">
+            <div class="priority-header">
+                <div class="priority-title">📊 PRIORITY 3: Meta Interview (Light Prep)</div>
+                <div class="priority-badge badge-medium">MEDIUM</div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-title"><span class="status-indicator status-waiting"></span>Thursday Nov 13, 3:00 PM - 4:45 PM</div>
+                <div class="task-description">
+                    <strong>Don't over-prep.</strong> You don't want this job (on-site, relocation required). Do 2-3 hours total prep:
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Practice 5-10 medium CoderPad problems</li>
+                        <li>Review your network experience talking points</li>
+                        <li>Show up, be honest, see what happens</li>
+                    </ul>
+                    Good interview practice. Don't sacrifice OpsMill prep for this.
+                </div>
+                <div class="task-meta">
+                    <span class="deadline">⏰ Thursday 3pm CST</span>
+                    <span>⚡ Total prep time: 2-3 hours MAX</span>
+                    <span>📍 You don't actually want this job</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- BLOCKED ITEMS -->
+        <div class="blocked">
+            <h3>🚫 BLOCKED UNTIL AFTER META INTERVIEW (Nov 13, 5pm)</h3>
+            <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                <li>No new job applications</li>
+                <li>No deep dives on random topics</li>
+                <li>No AutoCon detailed prep (wait until Friday)</li>
+                <li>Everything else is NOISE</li>
+            </ul>
+        </div>
+        
+        <!-- LOW PRIORITY -->
+        <div class="priority-section priority-low">
+            <div class="priority-header">
+                <div class="priority-title">📨 WATCHING: VIP Emails</div>
+                <div class="priority-badge badge-low">LOW</div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-title"><span class="status-indicator status-waiting"></span>Pearl Collings (Datadog)</div>
+                <div class="task-description">
+                    Sent updated narratives (general + Datadog-specific) on Nov 9. Waiting for feedback. Router will flag when she replies.
+                </div>
+                <div class="task-meta">
+                    <span>📧 Last contact: Nov 9</span>
+                    <span>⏰ Action: Wait for her response</span>
+                </div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-title"><span class="status-indicator status-blocked"></span>X/Twitter Recruiter (Unknown Name)</div>
+                <div class="task-description">
+                    Asked you to fill out a form. You never did. Need to find email and decide if worth pursuing.
+                </div>
+                <div class="task-meta">
+                    <span>📍 Status: Lost in Gmail somewhere</span>
+                    <span>⏰ Action: Router should find this</span>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px; padding: 30px; background: rgba(0, 0, 0, 0.3); border-radius: 12px;">
+            <h2 style="color: #00d9ff; margin-bottom: 15px;">🎯 FOCUS: OpsMill Application</h2>
+            <p style="font-size: 1.2em; line-height: 1.6; color: #c0c0c0;">
+                This is the job you actually want: remote, building automation, solution architecture.<br>
+                Everything else is secondary until you send that email to career@opsmill.com.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-refresh every 5 minutes to catch updates
+        setTimeout(() => location.reload(), 300000);
+    </script>
+</body>
+</html>
