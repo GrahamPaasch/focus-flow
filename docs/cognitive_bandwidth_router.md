@@ -119,6 +119,21 @@ cog-router-ingest --csv my_incidents.csv --out incidents.json --mapping mapping.
 
 After conversion, run `cog-router-eval` against the generated JSON to compare policies on real data.
 
+### Policy optimization
+
+When you have a historical dataset and a grid of candidate policies, ask the optimizer to score them and recommend the best according to your objective:
+
+```
+cog-router-opt --data incidents.json --grid policy_grid.json --objective human_rate --out optimization.json
+```
+
+Objectives:
+- `human_rate` (default): minimize fraction of tasks routed to humans.
+- `human_reduction`: maximize percentage reduction versus baseline.
+- `priority`: maximize average priority (useful if you want aggressive escalation).
+
+Use `--max-router-rate` to enforce an upper bound (e.g., keep router human rate ≤ 0.5). The CLI prints a ranked table and dumps the recommended policy JSON so you can pin it in config or commit it for production use.
+
 ## Next steps
 
 1. **Swap the in-memory wiring for production infra**: connect `KafkaEventBus` to a real producer/consumer pair and point `TemporalWorkflowStub` (or an Airflow HITL operator) at your orchestration stack.
