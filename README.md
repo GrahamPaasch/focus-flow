@@ -41,6 +41,31 @@ The `cognitive_router` package provides a runnable prototype for integrating int
 pip install -e .
 ```
 
+### Try It Now (No Setup Required)
+
+Test with simulated data:
+
+```bash
+# Generate random tasks and see routing decisions
+cog-router-sim --tasks 10 --seed 42
+
+# Run live integration demo with webhook examples
+python live_integration_example.py
+```
+
+### Connect Real Data Sources
+
+See **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** for:
+- Webhook server setup (Datadog, PagerDuty, Prometheus)
+- Real telemetry collection (system activity, calendar, queue depth)
+- Production deployment options
+
+Quick webhook server start:
+```bash
+pip install flask
+python webhook_server.py  # Starts server on http://localhost:5000
+```
+
 ### Run a simulation
 
 Generate random AI agent tasks and see how they get routed based on simulated operator load:
