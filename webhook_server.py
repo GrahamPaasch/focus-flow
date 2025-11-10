@@ -1,6 +1,7 @@
 """Flask webhook server for receiving alerts and routing them."""
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from datetime import timedelta
 import threading
 import time
@@ -18,6 +19,7 @@ from cognitive_router.alert_sources import GenericWebhookHandler
 
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 # Global router state
 telemetry_collector = TelemetryCollector(window=timedelta(minutes=30))

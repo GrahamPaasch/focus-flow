@@ -1,0 +1,195 @@
+nohup: ignoring input
+🚀 Starting Cognitive Router Webhook Server
+==================================================
+
+Endpoints:
+  POST /webhook/<source>  - Receive alerts (datadog, pagerduty, prometheus, ai_model)
+  GET  /queue            - View current work queue
+  GET  /telemetry        - View telemetry summary
+  GET  /policy           - View routing policy
+  POST /policy           - Update routing policy
+  GET  /health           - Health check
+
+Starting background telemetry collection...
+✓ Ready to receive webhooks
+
+ * Serving Flask app 'webhook_server'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.26.30.68:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [09/Nov/2025 21:05:43] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:05:43] "[33mGET / HTTP/1.1[0m" 404 -
+127.0.0.1 - - [09/Nov/2025 21:05:51] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:14] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:17] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:18] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:18] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:18] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:18] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:56] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:56] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:56] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:56] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:59] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:59] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:59] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:06:59] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:02] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:02] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:02] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:02] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:02] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:02] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:03] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:04] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:04] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:04] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:04] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:04] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:04] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:06] "OPTIONS /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:06] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:06] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:06] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:06] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:06] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:06] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:06] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:07] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:07] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:10] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:10] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:10] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:10] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:10] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:10] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:13] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:13] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:16] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:16] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:16] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:16] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:17] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:17] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:20] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:20] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:20] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:20] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:23] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:23] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:23] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:23] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:26] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:26] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:26] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:26] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:26] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:26] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:26] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:26] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:29] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:29] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:29] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:29] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:30] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:30] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:33] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:33] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:33] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:33] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:36] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:36] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:36] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:36] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:36] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:36] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:36] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:36] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:39] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:39] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:39] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:39] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:42] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:42] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:42] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:42] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:45] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:45] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:46] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:46] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:49] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:49] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:49] "GET /queue HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:07:49] "GET /telemetry HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:10:31] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:15:14] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:15:16] "POST /webhook/ai_model HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:15:17] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:15:41] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:15:43] "POST /webhook/pagerduty HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:15:44] "POST /webhook/ai_model HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:15:46] "POST /webhook/ai_model HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:05] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:06] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:08] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:37] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:39] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:40] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:42] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:45] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:47] "POST /webhook/datadog HTTP/1.1" 200 -
+127.0.0.1 - - [09/Nov/2025 21:19:48] "POST /webhook/datadog HTTP/1.1" 200 -
