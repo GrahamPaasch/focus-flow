@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Router Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f1419;
+            color: #e6edf3;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+        }
+        
+        .card h2 {
+            font-size: 1.3em;
+            margin-bottom: 16px;
+            color: #58a6ff;
+        }
+        
+        .stat {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat.immediate { color: #f85149; }
+        .stat.batch { color: #ffa657; }
+        .stat.auto { color: #56d364; }
+        .stat.park { color: #8b949e; }
+        
+        .label {
+            color: #8b949e;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .queue-item {
+            background: #0d1117;
+            border-left: 4px solid;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .queue-item:hover {
+            background: #161b22;
+        }
+        
+        .queue-item.immediate { border-color: #f85149; }
+        .queue-item.batch { border-color: #ffa657; }
+        .queue-item.park { border-color: #8b949e; }
+        
+        .queue-item h3 {
+            font-size: 1em;
+            margin-bottom: 8px;
+            color: #e6edf3;
+        }
+        
+        .queue-item .meta {
+            font-size: 0.85em;
+            color: #8b949e;
+        }
+        
+        .priority-bar {
+            background: #21262d;
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .priority-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #56d364, #ffa657, #f85149);
+            transition: width 0.3s ease;
+        }
+        
+        button {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: #2ea043;
+            transform: translateY(-1px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .alert-form {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        input, select {
+            background: #161b22;
+            border: 1px solid #30363d;
+            color: #e6edf3;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 1em;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+        
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .telemetry-item {
+            background: #0d1117;
+            padding: 16px;
+            border-radius: 6px;
+        }
+        
+        .telemetry-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #58a6ff;
+            margin: 8px 0;
+        }
+        
+        .status-online {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #56d364;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8b949e;
+        }
+        
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        
+        #refreshBtn {
+            background: #1f6feb;
+            margin-left: 10px;
+        }
+        
+        #refreshBtn:hover {
+            background: #388bfd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Cognitive Router Dashboard</h1>
+            <p class="subtitle">Intelligent task routing for human-in-the-loop AI systems</p>
+        </header>
+        
+        <div class="grid">
+            <div class="card">
+                <h2>System Status</h2>
+                <div style="margin: 20px 0;">
+                    <span class="status-online"></span>
+                    <span style="font-size: 1.2em; font-weight: 600;">Router Online</span>
+                </div>
+                <div class="label">Total Alerts Processed</div>
+                <div class="stat" id="totalProcessed">0</div>
+            </div>
+            
+            <div class="card">
+                <h2>Queue Depth</h2>
+                <div class="label">Current Work Items</div>
+                <div class="stat" id="queueDepth">0</div>
+            </div>
+            
+            <div class="card">
+                <h2>Attention Load</h2>
+                <div class="label">Operator Cognitive Load</div>
+                <div class="stat" id="attentionLoad" style="color: #56d364;">Low</div>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <h2>🚨 Immediate</h2>
+                <div class="label">Needs Attention Now</div>
+                <div class="stat immediate" id="immediateCount">0</div>
+            </div>
+            
+            <div class="card">
+                <h2>📋 Batch</h2>
+                <div class="label">Review When Available</div>
+                <div class="stat batch" id="batchCount">0</div>
+            </div>
+            
+            <div class="card">
+                <h2>🤖 Auto</h2>
+                <div class="label">AI Handled</div>
+                <div class="stat auto" id="autoCount">0</div>
+            </div>
+            
+            <div class="card">
+                <h2>⏸️ Park</h2>
+                <div class="label">Deferred</div>
+                <div class="stat park" id="parkCount">0</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Send Test Alert</h2>
+            <div class="alert-form">
+                <select id="alertSource">
+                    <option value="datadog">Datadog</option>
+                    <option value="pagerduty">PagerDuty</option>
+                    <option value="prometheus">Prometheus</option>
+                    <option value="ai_model">AI Model</option>
+                </select>
+                
+                <select id="alertSeverity">
+                    <option value="P5">P5 - Info</option>
+                    <option value="P4">P4 - Low</option>
+                    <option value="P3">P3 - Medium</option>
+                    <option value="P2">P2 - High</option>
+                    <option value="P1">P1 - Critical</option>
+                </select>
+                
+                <input type="text" id="alertTitle" placeholder="Alert message..." style="width: 400px;">
+                
+                <button onclick="sendTestAlert()">Send Alert</button>
+                <button id="refreshBtn" onclick="loadData()">↻ Refresh</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Current Queue</h2>
+            <div id="queueList"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Telemetry</h2>
+            <div class="telemetry-grid" id="telemetryGrid"></div>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = 'http://localhost:5000';
+        let totalProcessed = 0;
+        let strategyCounts = { immediate: 0, batch: 0, auto: 0, park: 0 };
+        
+        async function loadData() {
+            try {
+                // Load queue
+                const queueRes = await fetch(`${API_URL}/queue`);
+                const queueData = await queueRes.json();
+                
+                document.getElementById('queueDepth').textContent = queueData.total;
+                
+                // Render queue items
+                const queueList = document.getElementById('queueList');
+                if (queueData.total === 0) {
+                    queueList.innerHTML = `
+                        <div class="empty-state">
+                            <svg fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                            </svg>
+                            <h3>All Clear!</h3>
+                            <p>No items in queue. Send a test alert above.</p>
+                        </div>
+                    `;
+                } else {
+                    queueList.innerHTML = '';
+                    for (const [strategy, items] of Object.entries(queueData.by_strategy)) {
+                        items.forEach(item => {
+                            const div = document.createElement('div');
+                            div.className = `queue-item ${strategy}`;
+                            div.innerHTML = `
+                                <h3>${item.explanation}</h3>
+                                <div class="meta">
+                                    Task ID: ${item.task_id} | Priority: ${item.priority.toFixed(2)}
+                                </div>
+                                <div class="priority-bar">
+                                    <div class="priority-fill" style="width: ${item.priority * 100}%"></div>
+                                </div>
+                            `;
+                            queueList.appendChild(div);
+                        });
+                    }
+                }
+                
+                // Load telemetry
+                const telemetryRes = await fetch(`${API_URL}/telemetry`);
+                const telemetryData = await telemetryRes.json();
+                
+                const telemetryGrid = document.getElementById('telemetryGrid');
+                telemetryGrid.innerHTML = '';
+                
+                const telemetryLabels = {
+                    'active_tasks': 'Active Tasks',
+                    'pager_events': 'Pager Events',
+                    'queue_depth': 'Queue Depth',
+                    'idle_minutes': 'Idle Time (min)',
+                    'calendar_block_minutes': 'Calendar (min)',
+                };
+                
+                for (const [key, label] of Object.entries(telemetryLabels)) {
+                    if (telemetryData[key] !== undefined) {
+                        const div = document.createElement('div');
+                        div.className = 'telemetry-item';
+                        div.innerHTML = `
+                            <div class="label">${label}</div>
+                            <div class="telemetry-value">${telemetryData[key].toFixed(1)}</div>
+                        `;
+                        telemetryGrid.appendChild(div);
+                    }
+                }
+                
+                // Update strategy counts
+                document.getElementById('immediateCount').textContent = strategyCounts.immediate;
+                document.getElementById('batchCount').textContent = strategyCounts.batch;
+                document.getElementById('autoCount').textContent = strategyCounts.auto;
+                document.getElementById('parkCount').textContent = strategyCounts.park;
+                document.getElementById('totalProcessed').textContent = totalProcessed;
+                
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                document.getElementById('queueList').innerHTML = `
+                    <div class="empty-state">
+                        <h3>⚠️ Server Not Running</h3>
+                        <p>Start the webhook server: <code>python webhook_server.py</code></p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function sendTestAlert() {
+            const source = document.getElementById('alertSource').value;
+            const severity = document.getElementById('alertSeverity').value;
+            const title = document.getElementById('alertTitle').value || 'Test alert';
+            
+            let payload;
+            if (source === 'datadog') {
+                payload = {
+                    id: Date.now().toString(),
+                    title: title,
+                    priority: severity,
+                    alert_type: severity === 'P1' || severity === 'P2' ? 'error' : 'warning'
+                };
+            } else if (source === 'pagerduty') {
+                payload = {
+                    incident: {
+                        id: `INC-${Date.now()}`,
+                        title: title,
+                        urgency: severity === 'P1' || severity === 'P2' ? 'high' : 'low',
+                        status: 'triggered'
+                    }
+                };
+            } else if (source === 'prometheus') {
+                payload = {
+                    alerts: [{
+                        status: 'firing',
+                        labels: {
+                            alertname: 'TestAlert',
+                            severity: severity === 'P1' ? 'critical' : severity === 'P2' ? 'error' : 'warning',
+                            instance: 'test-server'
+                        },
+                        annotations: {
+                            summary: title
+                        }
+                    }]
+                };
+            } else {
+                payload = {
+                    prediction_id: Date.now().toString(),
+                    predicted_action: title,
+                    confidence: 0.85,
+                    severity: severity === 'P1' ? 'high' : severity === 'P2' ? 'medium' : 'low',
+                    estimated_impact_minutes: 20,
+                    explanation: title
+                };
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/webhook/${source}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await res.json();
+                
+                // Update counts
+                result.results.forEach(r => {
+                    totalProcessed++;
+                    strategyCounts[r.strategy]++;
+                });
+                
+                // Clear input
+                document.getElementById('alertTitle').value = '';
+                
+                // Reload data
+                await loadData();
+                
+            } catch (error) {
+                alert('Failed to send alert. Is the server running?');
+            }
+        }
+        
+        // Auto-refresh every 3 seconds
+        setInterval(loadData, 3000);
+        
+        // Initial load
+        loadData();
+    </script>
+</body>
+</html>
